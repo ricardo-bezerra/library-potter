@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+
 import pymysql
 
 pymysql.install_as_MySQLdb()
@@ -12,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-iw*4vnk!*m3&9=)-7f29yb8x8(*mde3l2qsuwejz7rv(h=)8_c'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,7 +34,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'books', 
 ]
-
 
 CORS_ORIGIM_ALLOW_ALL = True
 
@@ -66,21 +66,21 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'library.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'library',
-        'USER': 'rbezerra',
-        'PASSWORD': 'Ma12081998@',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'ENGINE': os.environ.get('DATABASE_ENGINE'),
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT')
     }
 }
 
@@ -132,5 +132,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = { 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination', 
-    'PAGE_SIZE': 5, 
+    'PAGE_SIZE': os.environ.get('PER_PAGE'), 
 }
